@@ -1,0 +1,36 @@
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+
+    <style>
+        .success{
+        color:green;
+        }
+
+        .error{
+        color:red;
+        }
+    </style>
+
+</head>
+
+<body>
+<h1>Homepage Welcome</h1>
+
+<p th:text="'Hello ' + ${student.name}"></p>
+
+
+<div th:if="${student.isSQLExpert}">
+    <h3>Welcome SQL Expert</h3>
+</div>
+
+<div th:unless="${student.isSQLExpert}">
+    <h3>See our available SQL courses</h3>
+    <button>See Here</button>
+</div>
+
+
+<h4 th:class="${student.isSQLExpert}  ? 'success' : 'error'">Message</h4>
+
+
+</body>
+</html>
