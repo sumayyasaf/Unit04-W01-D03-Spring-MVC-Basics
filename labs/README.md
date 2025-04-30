@@ -1,75 +1,91 @@
-Certainly! Here's the updated instruction sheet with **explicit styling tasks** for students to add in the external CSS file.
+## Lab: Build a Spring Boot Book List Web App
+
+### Learning Objectives:
+- Use Spring Initializr to create a Spring Boot project
+- Create a model/entity class with at least 6 fields
+- Set up a controller with an endpoint to pass data to a view
+- Use Thymeleaf to display a list with conditional logic
+- Style the view using CSS and apply classes conditionally
 
 ---
 
-## 🧪 Thymeleaf Lab: Displaying a List of Books
+### Part 1: Set Up the Project
 
-### 🎯 Objective:
-In this lab, you'll practice using Thymeleaf to display a list of objects in an HTML page. You will:
-
-- Create a Java entity class with six fields
-- Create a repository class that initializes a list of 10 objects
-- Create a controller that exposes an endpoint to view all values
-- Create a Thymeleaf HTML page that displays the data using:
-  - `th:each`
-  - `th:if`
-  - `th:unless`
-- Add **very basic styling** using an external CSS file inside the `static` folder
+1. Visit [https://start.spring.io](https://start.spring.io)
+2. Fill in:
+   - **Group**: `com.example`
+   - **Artifact**: `booklist`
+3. Add dependencies:
+   - **Spring Web**
+   - **Thymeleaf**
+4. Click **Generate**, unzip, and open the project in your IDE.
 
 ---
 
-### 📌 Instructions:
+### Part 2: Create the Book Entity
 
-#### 1. **Create an Entity class**
-Create a class called `Book` with the following fields:
-- `title` (String)
-- `author` (String)
-- `genre` (String)
-- `year` (int)
-- `inStock` (boolean)
-- `price` (double)
+- Inside a `model` package, create a `Book` class.
+- This class should have **at least 6 fields**, such as:
+
+  ```
+  - title (String)
+  - author (String)
+  - year (int)
+  - genre (String)
+  - price (double)
+  - inStock (boolean)
+  ```
+
+- Add a constructor and getters/setters.
+
 
 ---
 
-#### 2. **Create a Repository class**
-Create a `BookRepository` class that holds a list of books using an `ArrayList<Book>` and initialize it with the following 10 books:
+### Part 3: Initialize the Book List in the Controller
+
+1. Create a controller class (inside a `controller` package).
+2. Add a method mapped to **GET `/books`**.
+3. Inside this method, create a list of 8 books using this code snippet:
 
 ```java
-books.add(new Book("The Hobbit", "J.R.R. Tolkien", "Fantasy", 1937, true, 10.99));
-books.add(new Book("1984", "George Orwell", "Dystopian", 1949, true, 8.99));
-books.add(new Book("Clean Code", "Robert C. Martin", "Programming", 2008, false, 30.00));
-books.add(new Book("Moby Dick", "Herman Melville", "Classic", 1851, true, 12.50));
-books.add(new Book("The Catcher in the Rye", "J.D. Salinger", "Classic", 1951, true, 9.75));
-books.add(new Book("Effective Java", "Joshua Bloch", "Programming", 2018, true, 35.20));
-books.add(new Book("Pride and Prejudice", "Jane Austen", "Romance", 1813, false, 11.80));
-books.add(new Book("The Pragmatic Programmer", "Andrew Hunt", "Programming", 1999, true, 28.45));
-books.add(new Book("To Kill a Mockingbird", "Harper Lee", "Classic", 1960, true, 7.30));
-books.add(new Book("Harry Potter", "J.K. Rowling", "Fantasy", 1997, false, 14.00));
+List<Book> books = Arrays.asList(
+    new Book("1984", "George Orwell", 1949, "Dystopian", 9.99, true),
+    new Book("Brave New World", "Aldous Huxley", 1932, "Sci-Fi", 12.50, false),
+    new Book("To Kill a Mockingbird", "Harper Lee", 1960, "Classic", 14.99, true),
+    new Book("The Hobbit", "J.R.R. Tolkien", 1937, "Fantasy", 11.00, true),
+    new Book("Fahrenheit 451", "Ray Bradbury", 1953, "Sci-Fi", 10.00, false),
+    new Book("The Great Gatsby", "F. Scott Fitzgerald", 1925, "Classic", 13.25, true),
+    new Book("Dracula", "Bram Stoker", 1897, "Horror", 8.75, false),
+    new Book("The Catcher in the Rye", "J.D. Salinger", 1951, "Fiction", 10.99, true)
+);
 ```
 
----
-
-#### 3. **Create a Controller**
-- Create an endpoint like `/books` that returns a view called `book-list.html`
-- inject the dependancy of the `BookRepository` into the `BookController` class using constructor injection
-- Pass the list of books from the repository to the HTML using a model attribute (e.g., `model.addAttribute("books", bookRepository.findAll());`)
+4. Add this book list as an attribute to the `Model` so it can be accessed in the view.
 
 ---
 
-#### 4. **Create the HTML View**
-- Use Thymeleaf syntax to display each book inside an HTML template
-- Use:
-  - `th:each` to loop through books
-  - `th:if` to display `[In Stock]` when `inStock` is `true`
-  - `th:unless` to display `[Out of Stock]` when `inStock` is `false`
+### Part 4: Create `book-list.html` Using Thymeleaf
+
+In the `templates` folder, create an HTML page:
+
+1. Use the `th:each` directive to loop through the list of books.
+2. Use `th:if` and `th:unless` to display different messages or visuals depending on whether the book is in stock.
+3. Display at least 5 fields of each book.
 
 ---
 
-#### 5. **Add Basic Styling**
-In `src/main/resources/static`, create a file called `style.css`. if the book is out of stock than it should have the class name out-of-stock and if it is in stock it should have the classname in-stock
+### Part 5: Create a CSS File
 
-> 💡 You should apply the `in-stock` or `out-of-stock` class conditionally using Thymeleaf, depending on whether the book is in stock.
+1. Create a `static/styles.css` file.
+2. Style your book items with conditional formatting:
+   - If the book is in stock, give it a green background.
+   - If the book is not in stock, give it a red background.
+3. Link your CSS file inside `book-list.html`.
 
 ---
 
-Would you like me to turn this into a downloadable PDF for distribution?
+### Testing Instructions
+
+- Run your Spring Boot application.
+- Go to: [http://localhost:8080/books](http://localhost:8080/books)
+- You should see the styled list of books with visual differences based on their `inStock` value.
